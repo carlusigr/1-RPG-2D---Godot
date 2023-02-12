@@ -1,5 +1,7 @@
 extends KinematicBody2D
 
+const PARTICLES: PackedScene = preload("res://Scenes/Player/RunParticles.tscn")
+
 #Quando o Obj estiver pronto, guarda a referencia na Variavel
 onready var animation: AnimationPlayer = get_node("Animation")
 onready var sprite:  Sprite = get_node("Sprite")
@@ -40,3 +42,12 @@ func verify_direction() -> void:
 		
 	elif velocity.x < 0:
 		sprite.flip_h = true
+
+#Adicionando particulas de correr
+func instance_particles() -> void:
+	var particle = PARTICLES.instance()
+	get_tree().root.call_deferred("add_child", particle)
+	particle.global_position = global_position + Vector2(0, 16)
+	particle.play_particles()
+	
+	
